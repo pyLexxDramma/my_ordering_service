@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Supplier, Category, ProductAttribute, ProductAttributeValue
+from ordering_app.models import Product, Supplier, Category, ProductAttribute, ProductAttributeValue
 
 
 class SupplierSerializer(serializers.ModelSerializer):
