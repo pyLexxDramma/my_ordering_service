@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Временно удалил ограничение уникальности из Product.sku для переноса">
-      <change afterPath="$PROJECT_DIR$/data.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ordering_app/management/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ordering_app/management/commands/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ordering_app/management/commands/import_products.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Реализация логики импорта из YAML, добавление модели Category, обновление модели Product, регистрация моделей в админке">
+      <change afterPath="$PROJECT_DIR$/ordering_app/api/urls.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ordering_app/api/views.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ordering_app/serializers.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordering_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/admin.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +78,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1760768869823</updated>
-      <workItem from="1760768870945" duration="9845000" />
+      <workItem from="1760768870945" duration="11369000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
       <option name="closed" value="true" />
@@ -98,7 +96,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760776951133</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Реализация логики импорта из YAML, добавление модели Category, обновление модели Product, регистрация моделей в админке">
+      <option name="closed" value="true" />
+      <created>1760779126319</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760779126319</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +154,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: Initial project setup and environment configuration" />
     <MESSAGE value="Временно удалил ограничение уникальности из Product.sku для переноса" />
-    <option name="LAST_COMMIT_MESSAGE" value="Временно удалил ограничение уникальности из Product.sku для переноса" />
+    <MESSAGE value="Реализация логики импорта из YAML, добавление модели Category, обновление модели Product, регистрация моделей в админке" />
+    <option name="LAST_COMMIT_MESSAGE" value="Реализация логики импорта из YAML, добавление модели Category, обновление модели Product, регистрация моделей в админке" />
   </component>
 </project>
