@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
-from .models import Product, Supplier, Category, ProductAttribute, ProductAttributeValue
+from ordering_app.models import Product, Supplier, Category, ProductAttribute, ProductAttributeValue, Cart, CartItem
 
 User = get_user_model()
 
@@ -71,6 +70,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(
+            username=validated_data['email'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],

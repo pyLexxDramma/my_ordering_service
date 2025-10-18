@@ -12,7 +12,7 @@ from .serializers import (
     RegisterSerializer,
     UserSerializer
 )
-from ordering_app.models import Product, Supplier, Category
+from ordering_app.models import Product, Supplier, Category, Cart, CartItem
 
 User = get_user_model()
 

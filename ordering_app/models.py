@@ -104,3 +104,37 @@ class OrderItem(models.Model):
 
     def get_item_total(self):
         return self.quantity * self.price
+
+class Cart(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart', verbose_name="Пользователь")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+
+    def __str__(self):
+        return f"Корзина пользователя {self.user.email}"
+
+    class Meta:
+        verbose_name = "Корзина"
+        verbose_name_plural = "Корзины"
+
+    def get_total_price(self):
+        total = 0
+        for item in self.items.all():
+            total += item.get_item_total()
+        return total
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cart_items")
+    quantity = models.PositiveIntegerField(default=1, verbose_name="Количество")
+
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name} (Корзина ID: {self.cart.pk})"
+
+    class Meta:
+        verbose_name = "Элемент корзины"
+        verbose_name_plural = "Элементы корзины"
+        unique_together = ('cart', 'product')
+
+    def get_item_total(self):
+        return self.quantity * self.product.price
