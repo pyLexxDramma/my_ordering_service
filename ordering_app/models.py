@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from django.utils import timezone
 
-
 class Supplier(models.Model):
     name = models.CharField(max_length=255, verbose_name="Название поставщика")
     contact_person = models.CharField(max_length=255, blank=True, null=True, verbose_name="Контактное лицо")
@@ -17,6 +16,32 @@ class Supplier(models.Model):
         verbose_name = "Поставщик"
         verbose_name_plural = "Поставщики"
 
+class Category(models.Model):
+    external_id = models.IntegerField(unique=True, verbose_name="Внешний ID категории")
+    name = models.CharField(max_length=255, verbose_name="Название категории")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+class Product(models.Model):
+    name = models.CharField(max_length=255, verbose_name="Название товара")
+    description = models.TextField(blank=True, null=True, verbose_name="Описание")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
+    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name="Поставщик")
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name="Категория")
+    sku = models.CharField(max_length=255, verbose_name="Артикул (model)", blank=True, null=True)
+    stock_quantity = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
 
 class ProductAttribute(models.Model):
     name = models.CharField(max_length=100, unique=True, verbose_name="Название характеристики")
@@ -27,22 +52,6 @@ class ProductAttribute(models.Model):
     class Meta:
         verbose_name = "Характеристика товара"
         verbose_name_plural = "Характеристики товара"
-
-
-class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название товара")
-    description = models.TextField(blank=True, null=True, verbose_name="Описание")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
-    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name="Поставщик")
-    stock_quantity = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Товар"
-        verbose_name_plural = "Товары"
-
 
 class ProductAttributeValue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="attribute_values")
@@ -57,7 +66,6 @@ class ProductAttributeValue(models.Model):
         verbose_name_plural = "Значения характеристик товара"
         unique_together = ('product', 'attribute')
 
-
 class Order(models.Model):
     STATUS_CHOICES = [
         ('pending', 'В ожидании'),
@@ -67,7 +75,6 @@ class Order(models.Model):
         ('delivered', 'Доставлен'),
         ('cancelled', 'Отменен'),
     ]
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders", verbose_name="Пользователь")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
@@ -81,7 +88,6 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
         ordering = ['-created_at']
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
