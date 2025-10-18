@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Внедрение настройки DRF, сериализаторы и представления API продукта">
-      <change afterPath="$PROJECT_DIR$/ordering_app/api/__init__.py" afterDir="false" />
+    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Реализация базовых конечных точек API продукта (список, подробные сведения) с помощью DRF">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ordering_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordering_app/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +83,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1760768869823</updated>
-      <workItem from="1760768870945" duration="12845000" />
+      <workItem from="1760768870945" duration="14892000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
       <option name="closed" value="true" />
@@ -118,7 +117,23 @@
       <option name="project" value="LOCAL" />
       <updated>1760781819581</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Внедрение настройки DRF, сериализаторы и представления API продукта">
+      <option name="closed" value="true" />
+      <created>1760783244974</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760783244974</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Реализация базовых конечных точек API продукта (список, подробные сведения) с помощью DRF">
+      <option name="closed" value="true" />
+      <created>1760783324551</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760783324551</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,6 +185,7 @@
     <MESSAGE value="Временно удалил ограничение уникальности из Product.sku для переноса" />
     <MESSAGE value="Реализация логики импорта из YAML, добавление модели Category, обновление модели Product, регистрация моделей в админке" />
     <MESSAGE value="Внедрение настройки DRF, сериализаторы и представления API продукта" />
-    <option name="LAST_COMMIT_MESSAGE" value="Внедрение настройки DRF, сериализаторы и представления API продукта" />
+    <MESSAGE value="Реализация базовых конечных точек API продукта (список, подробные сведения) с помощью DRF" />
+    <option name="LAST_COMMIT_MESSAGE" value="Реализация базовых конечных точек API продукта (список, подробные сведения) с помощью DRF" />
   </component>
 </project>
