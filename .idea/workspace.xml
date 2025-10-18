@@ -4,22 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/my_ordering_service.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Временно удалил ограничение уникальности из Product.sku для переноса">
+      <change afterPath="$PROJECT_DIR$/data.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ordering_app/management/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ordering_app/management/commands/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ordering_app/management/commands/import_products.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/admin.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "pyLexxDramma"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/pyLexxDramma/my_ordering_service.git",
+    "accountId": "5664d523-6e77-4907-bb08-dbed1ea0fa10"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 0
 }]]></component>
@@ -60,16 +80,63 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1760768869823</updated>
-      <workItem from="1760768870945" duration="1636000" />
+      <workItem from="1760768870945" duration="9845000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
+      <option name="closed" value="true" />
+      <created>1760770581683</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760770581683</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Временно удалил ограничение уникальности из Product.sku для переноса">
+      <option name="closed" value="true" />
+      <created>1760776951133</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760776951133</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="01421734-1131-4717-9dc6-7a2542f9c183" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
+        <entry key="01421734-1131-4717-9dc6-7a2542f9c183">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State />
@@ -77,5 +144,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Initial project setup and environment configuration" />
+    <MESSAGE value="Временно удалил ограничение уникальности из Product.sku для переноса" />
+    <option name="LAST_COMMIT_MESSAGE" value="Временно удалил ограничение уникальности из Product.sku для переноса" />
   </component>
 </project>
