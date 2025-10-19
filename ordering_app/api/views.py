@@ -4,13 +4,16 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from rest_framework import serializers
 
 from .serializers import (
     ProductSerializer,
     SupplierSerializer,
     CategorySerializer,
     RegisterSerializer,
-    UserSerializer
+    UserSerializer,
+    CartSerializer,
+    CartItemSerializer
 )
 from ordering_app.models import Product, Supplier, Category, Cart, CartItem
 
@@ -62,3 +65,141 @@ class LoginView(ObtainAuthToken):
             "token": token.key
         }
         return Response(response_data)
+
+
+class CartDetailView(generics.RetrieveAPIView):
+    serializer_class = CartSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        try:
+            cart = Cart.objects.get(user=self.request.user)
+            return cart
+        except Cart.DoesNotExist:
+            return None
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance is None:
+            return Response({"detail": "Корзина пуста или не найдена."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+
+class CartItemCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart__user=self.request.user)
+
+    def perform_create(self, serializer):
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+
+        product_id = self.request.data.get('product')
+        quantity = int(self.request.data.get('quantity', 1))
+
+        if not product_id:
+            raise serializers.ValidationError({"product": "ID товара обязателен."})
+
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            raise serializers.ValidationError({"product": "Товар с таким ID не существует."})
+
+        cart_item, item_created = CartItem.objects.get_or_create(
+            cart=cart,
+            product=product,
+        )
+
+        if not item_created:
+            cart_item.quantity += quantity
+            cart_item.save()
+        else:
+            cart_item.quantity = quantity
+            cart_item.save()
+
+        serializer.instance = cart_item
+        cart.save()
+
+    def perform_update(self, serializer):
+        quantity = int(self.request.data.get('quantity'))
+
+        if quantity <= 0:
+            cart = serializer.instance.cart
+            serializer.instance.delete()
+            cart.save()
+            serializer.instance.swagger_rendered_actions = status.HTTP_204_NO_CONTENT
+        else:
+            serializer.instance.quantity = quantity
+            serializer.instance.save()
+            serializer.instance.cart.save()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(CartItemSerializer(serializer.instance).data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(serializer.instance, 'swagger_rendered_actions', None) == status.HTTP_204_NO_CONTENT:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(CartItemSerializer(serializer.instance).data)
+
+
+class CartItemUpdateView(generics.UpdateAPIView):
+    queryset = CartItem.objects.all()
+    serializer_class = CartItemSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart__user=self.request.user)
+
+    def perform_update(self, serializer):
+        quantity = int(self.request.data.get('quantity'))
+
+        if quantity <= 0:
+            cart = serializer.instance.cart
+            serializer.instance.delete()
+            cart.save()
+            serializer.instance.swagger_rendered_actions = status.HTTP_204_NO_CONTENT
+        else:
+            serializer.instance.quantity = quantity
+            serializer.instance.save()
+            serializer.instance.cart.save()
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(serializer.instance, 'swagger_rendered_actions', None) == status.HTTP_204_NO_CONTENT:
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(CartItemSerializer(serializer.instance).data)
+
+
+class CartItemDeleteView(generics.DestroyAPIView):
+    queryset = CartItem.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return CartItem.objects.filter(cart__user=self.request.user)
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        cart_before_delete = instance.cart
+        self.perform_destroy(instance)
+        cart_before_delete.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)

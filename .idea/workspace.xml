@@ -4,15 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Внедрение конечных точек API для регистрации пользователей и входа в систему, настройка аутентификацию DRF">
+    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Загрузка исходных данных из файла YML, исправление команды загрузки данных.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/data.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordering_app/management/commands/import_products.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/management/commands/load_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/api/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/views.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../../IOS FOR 13 MINI" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -52,6 +58,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/IOS FOR 13 MINI&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -82,7 +89,9 @@
       <option name="presentableId" value="Default" />
       <updated>1760768869823</updated>
       <workItem from="1760768870945" duration="21010000" />
-      <workItem from="1760791672149" duration="6858000" />
+      <workItem from="1760791672149" duration="16878000" />
+      <workItem from="1760864485881" duration="6325000" />
+      <workItem from="1760872988375" duration="1574000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
       <option name="closed" value="true" />
@@ -148,7 +157,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760788639543</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Загрузка исходных данных из файла YML, исправление команды загрузки данных.">
+      <option name="closed" value="true" />
+      <created>1760854013438</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1760854013438</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,6 +220,7 @@
     <MESSAGE value="Реализация базовых конечных точек API продукта (список, подробные сведения) с помощью DRF" />
     <MESSAGE value="Реализация конечных точек API для регистрации и входа пользователей с помощью DRF" />
     <MESSAGE value="Внедрение конечных точек API для регистрации пользователей и входа в систему, настройка аутентификацию DRF" />
-    <option name="LAST_COMMIT_MESSAGE" value="Внедрение конечных точек API для регистрации пользователей и входа в систему, настройка аутентификацию DRF" />
+    <MESSAGE value="Загрузка исходных данных из файла YML, исправление команды загрузки данных." />
+    <option name="LAST_COMMIT_MESSAGE" value="Загрузка исходных данных из файла YML, исправление команды загрузки данных." />
   </component>
 </project>

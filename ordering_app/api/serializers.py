@@ -4,18 +4,15 @@ from ordering_app.models import Product, Supplier, Category, ProductAttribute, P
 
 User = get_user_model()
 
-
 class SupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = Supplier
         fields = '__all__'
 
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
-
 
 class ProductAttributeValueSerializer(serializers.ModelSerializer):
     attribute_name = serializers.CharField(source='attribute.name', read_only=True)
@@ -23,7 +20,6 @@ class ProductAttributeValueSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductAttributeValue
         fields = ('attribute_name', 'value')
-
 
 class ProductSerializer(serializers.ModelSerializer):
     supplier = serializers.CharField(source='supplier.name', read_only=True)
@@ -44,12 +40,10 @@ class ProductSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['supplier', 'category', 'characteristics']
 
-
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email')
-
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
@@ -77,3 +71,31 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(source='product.name', read_only=True)
+    supplier_name = serializers.CharField(source='product.supplier.name', read_only=True)
+    price = serializers.DecimalField(source='product.price', max_digits=10, decimal_places=2, read_only=True)
+    item_total = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = CartItem
+        fields = [
+            'id',
+            'product_name',
+            'supplier_name',
+            'price',
+            'quantity',
+            'item_total'
+        ]
+        read_only_fields = ['item_total']
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True, read_only=True)
+    total_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'user', 'created_at', 'updated_at', 'items', 'total_price']
+        read_only_fields = ['user', 'created_at', 'updated_at', 'items', 'total_price']
