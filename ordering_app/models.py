@@ -1,70 +1,70 @@
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 class Supplier(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название поставщика")
-    contact_person = models.CharField(max_length=255, blank=True, null=True, verbose_name="Контактное лицо")
-    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Телефон")
-    email = models.EmailField(blank=True, null=True, verbose_name="Email")
-    address = models.TextField(blank=True, null=True, verbose_name="Адрес")
+    name = models.CharField(max_length=255, verbose_name=_("Supplier Name"))
+    contact_person = models.CharField(max_length=255, blank=True, null=True, verbose_name=_("Contact Person"))
+    phone = models.CharField(max_length=20, blank=True, null=True, verbose_name=_("Phone"))
+    email = models.EmailField(blank=True, null=True, verbose_name=_("Email"))
+    address = models.TextField(blank=True, null=True, verbose_name=_("Address"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Поставщик"
-        verbose_name_plural = "Поставщики"
+        verbose_name = _("Supplier")
+        verbose_name_plural = _("Suppliers")
 
 class Category(models.Model):
-    external_id = models.IntegerField(unique=True, verbose_name="Внешний ID категории")
-    name = models.CharField(max_length=255, verbose_name="Название категории")
+    external_id = models.IntegerField(unique=True, verbose_name=_("External ID"))
+    name = models.CharField(max_length=255, verbose_name=_("Name"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = _("Category")
+        verbose_name_plural = _("Categories")
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Название товара")
-    description = models.TextField(blank=True, null=True, verbose_name="Описание")
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
-    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name="Поставщик")
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name="Категория")
-    sku = models.CharField(max_length=255, verbose_name="Артикул (SKU)", blank=True, null=True)
-    stock_quantity = models.PositiveIntegerField(default=0, verbose_name="Количество на складе")
+    name = models.CharField(max_length=255, verbose_name=_("Product Name"))
+    description = models.TextField(blank=True, null=True, verbose_name=_("Description"))
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Price"))
+    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name=_("Supplier"))
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name="products", verbose_name=_("Category"))
+    sku = models.CharField(max_length=255, verbose_name=_("SKU"), blank=True, null=True)
+    stock_quantity = models.PositiveIntegerField(default=0, verbose_name=_("Stock Quantity"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Товар"
-        verbose_name_plural = "Товары"
+        verbose_name = _("Product")
+        verbose_name_plural = _("Products")
 
 class ProductAttribute(models.Model):
-    name = models.CharField(max_length=100, unique=True, verbose_name="Название характеристики")
+    name = models.CharField(max_length=100, unique=True, verbose_name=_("Attribute Name"))
 
     def __str__(self):
         return self.name
 
     class Meta:
-        verbose_name = "Характеристика товара"
-        verbose_name_plural = "Характеристики товара"
+        verbose_name = _("Product Attribute")
+        verbose_name_plural = _("Product Attributes")
 
 class ProductAttributeValue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="attribute_values")
     attribute = models.ForeignKey(ProductAttribute, on_delete=models.CASCADE, related_name="values")
-    value = models.CharField(max_length=255, verbose_name="Значение")
+    value = models.CharField(max_length=255, verbose_name=_("Value"))
 
     def __str__(self):
         return f"{self.product.name} - {self.attribute.name}: {self.value}"
 
     class Meta:
-        verbose_name = "Значение характеристики товара"
-        verbose_name_plural = "Значения характеристик товара"
+        verbose_name = _("Product Attribute Value")
+        verbose_name_plural = _("Product Attribute Values")
         unique_together = ('product', 'attribute')
 
 class Customer(models.Model):

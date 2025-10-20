@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Полное внедрение и протестирование функциональность cart API, включая настройку URL-адреса, логику просмотра элементов корзины (создание, обновление, удаление),&#10;аутентификацию, обработку ошибок и тесты почтальонов. Все операции с корзиной&#10;теперь функционируют и проверены">
+    <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Созданы модели &quot;Клиент&quot;, &quot;Заказ&quot; и &quot;OrderItem&quot; для управления заказами и пользователями. Зарегистрированы новые модели в админ-панели Django. Осуществлена миграция базы данных.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordering_app/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ordering_app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +88,7 @@
       <workItem from="1760768870945" duration="21010000" />
       <workItem from="1760791672149" duration="16878000" />
       <workItem from="1760864485881" duration="6325000" />
-      <workItem from="1760872988375" duration="4694000" />
+      <workItem from="1760872988375" duration="8538000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
       <option name="closed" value="true" />
@@ -170,7 +170,15 @@
       <option name="project" value="LOCAL" />
       <updated>1760874967642</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Созданы модели &quot;Клиент&quot;, &quot;Заказ&quot; и &quot;OrderItem&quot; для управления заказами и пользователями. Зарегистрированы новые модели в админ-панели Django. Осуществлена миграция базы данных.">
+      <option name="closed" value="true" />
+      <created>1760878223562</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1760878223562</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +235,7 @@
     <MESSAGE value="Внедрение конечных точек API для регистрации пользователей и входа в систему, настройка аутентификацию DRF" />
     <MESSAGE value="Загрузка исходных данных из файла YML, исправление команды загрузки данных." />
     <MESSAGE value="Полное внедрение и протестирование функциональность cart API, включая настройку URL-адреса, логику просмотра элементов корзины (создание, обновление, удаление),&#10;аутентификацию, обработку ошибок и тесты почтальонов. Все операции с корзиной&#10;теперь функционируют и проверены" />
-    <option name="LAST_COMMIT_MESSAGE" value="Полное внедрение и протестирование функциональность cart API, включая настройку URL-адреса, логику просмотра элементов корзины (создание, обновление, удаление),&#10;аутентификацию, обработку ошибок и тесты почтальонов. Все операции с корзиной&#10;теперь функционируют и проверены" />
+    <MESSAGE value="Созданы модели &quot;Клиент&quot;, &quot;Заказ&quot; и &quot;OrderItem&quot; для управления заказами и пользователями. Зарегистрированы новые модели в админ-панели Django. Осуществлена миграция базы данных." />
+    <option name="LAST_COMMIT_MESSAGE" value="Созданы модели &quot;Клиент&quot;, &quot;Заказ&quot; и &quot;OrderItem&quot; для управления заказами и пользователями. Зарегистрированы новые модели в админ-панели Django. Осуществлена миграция базы данных." />
   </component>
 </project>
