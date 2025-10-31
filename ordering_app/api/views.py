@@ -4,9 +4,20 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from rest_framework import serializers
+from django.db import transaction
+
+from ordering_app.models import (
+    Product,
+    Supplier,
+    Category,
+    Cart,
+    CartItem,
+    Customer,
+    Order,
+    OrderItem,
+)
 
 from .serializers import (
     ProductSerializer,
@@ -17,30 +28,24 @@ from .serializers import (
     CartSerializer,
     CartItemSerializer,
     OrderSerializer,
-    OrderItemSerializer
+    OrderItemSerializer,
 )
-from ordering_app.models import Product, Supplier, Category, Cart, CartItem, Order, Customer
+
+from ordering_app.utils import send_registration_confirmation, send_order_confirmation
 
 User = get_user_model()
-
-
-def send_registration_confirmation(user):
-    subject = 'Подтверждение регистрации'
-    message = f'Спасибо за регистрацию, {user.username}!'
-    from_email = 'admin_email@test.com'
-    recipient_list = [user.email]
-
-    send_mail(subject, message, from_email, recipient_list)
 
 
 class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
 class RegisterView(generics.CreateAPIView):
@@ -59,7 +64,7 @@ class RegisterView(generics.CreateAPIView):
         response_data = {
             "message": "Пользователь успешно зарегистрирован.",
             "user": UserSerializer(user).data,
-            "token": token.key
+            "token": token.key,
         }
         return Response(response_data, status=status.HTTP_201_CREATED, headers=headers)
 
@@ -68,14 +73,16 @@ class LoginView(ObtainAuthToken):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer = self.serializer_class(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
+        user = serializer.validated_data["user"]
         token, created = Token.objects.get_or_create(user=user)
         response_data = {
             "message": "Пользователь успешно вошел.",
             "user": UserSerializer(user).data,
-            "token": token.key
+            "token": token.key,
         }
         return Response(response_data)
 
@@ -94,12 +101,22 @@ class CartDetailView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance is None:
-            return Response({"detail": "Корзина пуста или не найдена."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "id": None,
+                    "user": UserSerializer(request.user).data,
+                    "created_at": None,
+                    "updated_at": None,
+                    "items": [],
+                    "total_amount": "0.00",
+                },
+                status=status.HTTP_200_OK,
+            )
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
 
 
-class CartItemCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView):
+class CartItemViewSet(viewsets.ModelViewSet):
     queryset = CartItem.objects.all()
     serializer_class = CartItemSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -109,77 +126,59 @@ class CartItemCreateUpdateView(generics.CreateAPIView, generics.UpdateAPIView):
 
     def perform_create(self, serializer):
         cart, created = Cart.objects.get_or_create(user=self.request.user)
-        product_id = self.request.data.get('product_id')
-        quantity = int(self.request.data.get('quantity', 1))
+        product = serializer.validated_data.get("product")
+        quantity = serializer.validated_data.get("quantity", 1)
 
-        if not product_id:
-            raise serializers.ValidationError({"product": "ID товара обязателен."})
-
-        try:
-            product = Product.objects.get(pk=product_id)
-        except Product.DoesNotExist:
-            raise serializers.ValidationError({"product": "Товар с таким ID не существует."})
+        if not product:
+            raise serializers.ValidationError({"product": "Product is required."})
+        if quantity <= 0:
+            raise serializers.ValidationError(
+                {"quantity": "Quantity must be positive."}
+            )
 
         cart_item, item_created = CartItem.objects.get_or_create(
-            cart=cart,
-            product=product,
+            cart=cart, product=product
         )
 
         if not item_created:
             cart_item.quantity += quantity
-            cart_item.save()
         else:
             cart_item.quantity = quantity
-            cart_item.save()
-
+        cart_item.save()
         serializer.instance = cart_item
         cart.save()
 
     def perform_update(self, serializer):
-        quantity = int(self.request.data.get('quantity'))
+        instance = serializer.instance
+        quantity = serializer.validated_data.get("quantity", instance.quantity)
 
         if quantity <= 0:
-            cart = serializer.instance.cart
-            serializer.instance.delete()
-            cart.save()
-            serializer.instance.swagger_rendered_actions = status.HTTP_204_NO_CONTENT
+            instance.delete()
+            return None
         else:
-            serializer.instance.quantity = quantity
-            serializer.instance.save()
-            serializer.instance.cart.save()
+            instance.quantity = quantity
+            instance.save()
+            instance.cart.save()
+            return instance
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return Response(CartItemSerializer(serializer.instance).data, status=status.HTTP_201_CREATED)
+        return Response(
+            CartItemSerializer(serializer.instance).data, status=status.HTTP_201_CREATED
+        )
 
     def update(self, request, *args, **kwargs):
-        partial = kwargs.pop('partial', False)
+        partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        updated_instance = self.perform_update(serializer)
 
-        if getattr(serializer.instance, 'swagger_rendered_actions', None) == status.HTTP_204_NO_CONTENT:
+        if updated_instance is None:
             return Response(status=status.HTTP_204_NO_CONTENT)
-
-        return Response(CartItemSerializer(serializer.instance).data)
-
-
-class CartItemDeleteView(generics.DestroyAPIView):
-    queryset = CartItem.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        return CartItem.objects.filter(cart__user=self.request.user)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        cart_before_delete = instance.cart
-        self.perform_destroy(instance)
-        cart_before_delete.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(CartItemSerializer(updated_instance).data)
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -190,38 +189,77 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
-            return Order.objects.filter(user=user).select_related('user', 'customer')
+            return Order.objects.filter(user=user).select_related("user", "customer")
         return Order.objects.none()
 
     def retrieve(self, request, *args, **kwargs):
-        order_id = kwargs.get('pk')
-        order = get_object_or_404(Order.objects.select_related('user', 'customer'), pk=order_id, user=request.user)
+        order_id = kwargs.get("pk")
+        order = get_object_or_404(self.get_queryset(), pk=order_id)
         serializer = self.get_serializer(order)
         return Response(serializer.data)
 
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, context={'request': request})
+        serializer = self.get_serializer(
+            data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
-        response_data = self.get_serializer(order, context={'request': request}).data
+        response_data = self.get_serializer(order).data
         return Response(response_data, status=status.HTTP_201_CREATED)
 
-    @action(detail=True, methods=['patch'], permission_classes=[permissions.IsAdminUser])
+    @action(
+        detail=True, methods=["patch"], permission_classes=[permissions.IsAdminUser]
+    )
     def confirm_order(self, request, pk=None):
         order = self.get_object()
-        new_status = request.data.get('status')
+        new_status = request.data.get("status")
 
         if not new_status:
-            return Response({"detail": "Status must be provided."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Status must be provided."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-        if new_status not in [choice[0] for choice in Order.STATUS_CHOICES]:
-            return Response({"detail": "Invalid status."}, status=status.HTTP_400_BAD_REQUEST)
+        valid_statuses = [choice[0] for choice in Order.STATUS_CHOICES]
+        if new_status not in valid_statuses:
+            return Response(
+                {
+                    "detail": f"Invalid status. Allowed statuses are: {', '.join(valid_statuses)}."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         order.status = new_status
         order.save()
 
-        if order.status == 'confirmed':
-            send_order_confirmation(order)
+        if order.status == "confirmed":
+            try:
+                send_order_confirmation(order)
+            except Exception as e:
+                self.stderr.write(
+                    self.style.ERROR(
+                        f"Error sending confirmation email for order {order.id} after status change: {e}"
+                    )
+                )
 
         serializer = self.get_serializer(order)
         return Response(serializer.data)
+
+
+class ProductViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+
+class SupplierViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Supplier.objects.all()
+    serializer_class = SupplierSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
