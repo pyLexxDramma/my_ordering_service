@@ -158,6 +158,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
+    cart_id = serializers.IntegerField(write_only=True, required=True)
 
     class Meta:
         model = Order
@@ -172,6 +173,7 @@ class OrderSerializer(serializers.ModelSerializer):
             "shipping_address",
             "phone_number",
             "items",
+            "cart_id",
         ]
         read_only_fields = [
             "user",
