@@ -3,8 +3,8 @@ from django.conf import settings
 
 
 def send_registration_confirmation(user):
-    subject = 'Добро пожаловать в Ordering App!'
-    message = f'Здравствуйте, {user.username}! Ваша регистрация прошла успешно.'
+    subject = "Добро пожаловать в Ordering App!"
+    message = f"Здравствуйте, {user.username}! Ваша регистрация прошла успешно."
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [user.email]
 
@@ -12,10 +12,12 @@ def send_registration_confirmation(user):
 
 
 def send_order_confirmation(order):
-    subject = f'Ваш заказ #{order.id} подтвержден!'
-    message = (f'Здравствуйте, {order.user.username}!\n\n'
-               f'Ваш заказ №{order.id} на сумму {order.total_amount} был успешно подтвержден. '
-               f'Адрес доставки: {order.shipping_address}')
+    subject = f"Ваш заказ #{order.id} подтвержден!"
+    message = (
+        f"Здравствуйте, {order.user.username}!\n\n"
+        f"Ваш заказ №{order.id} на сумму {order.total_amount} был успешно подтвержден. "
+        f"Адрес доставки: {order.shipping_address}"
+    )
     email_from = settings.EMAIL_HOST_USER
     recipient_list = [order.user.email]
 

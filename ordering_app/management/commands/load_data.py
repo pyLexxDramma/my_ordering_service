@@ -239,7 +239,7 @@ class Command(BaseCommand):
             except IntegrityError as e:
                 self.stderr.write(
                     self.style.ERROR(
-                        f"Ошибка целостности данных для товара '{prod_data.get('name')}': {e}. Возможно, дубликат SKU или другая проблема."
+                        f"Ошибка целостности данных для товара '{prod_data.get('name')}': {e}. Возможно, дубликат SKU."
                     )
                 )
             except Exception as e:

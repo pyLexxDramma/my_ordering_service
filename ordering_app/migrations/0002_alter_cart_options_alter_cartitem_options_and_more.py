@@ -9,133 +9,232 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('ordering_app', '0001_initial'),
+        ("ordering_app", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='cart',
-            options={'verbose_name': 'Cart', 'verbose_name_plural': 'Carts'},
+            name="cart",
+            options={"verbose_name": "Cart", "verbose_name_plural": "Carts"},
         ),
         migrations.AlterModelOptions(
-            name='cartitem',
-            options={'verbose_name': 'Cart Item', 'verbose_name_plural': 'Cart Items'},
+            name="cartitem",
+            options={"verbose_name": "Cart Item", "verbose_name_plural": "Cart Items"},
         ),
         migrations.AlterModelOptions(
-            name='order',
-            options={'ordering': ['-created_at'], 'verbose_name': 'Order', 'verbose_name_plural': 'Orders'},
-        ),
-        migrations.AlterModelOptions(
-            name='orderitem',
-            options={'verbose_name': 'Order Item', 'verbose_name_plural': 'Order Items'},
-        ),
-        migrations.AddField(
-            model_name='order',
-            name='phone_number',
-            field=models.CharField(blank=True, max_length=20, null=True, verbose_name='Phone Number'),
-        ),
-        migrations.AddField(
-            model_name='order',
-            name='shipping_address',
-            field=models.TextField(blank=True, null=True, verbose_name='Shipping Address'),
-        ),
-        migrations.AddField(
-            model_name='orderitem',
-            name='product_name',
-            field=models.CharField(default='Unknown Product', max_length=255, verbose_name='Product Name'),
-        ),
-        migrations.AddField(
-            model_name='orderitem',
-            name='supplier_name',
-            field=models.CharField(default='Unknown Supplier', max_length=255, verbose_name='Supplier Name'),
-        ),
-        migrations.AlterField(
-            model_name='cart',
-            name='created_at',
-            field=models.DateTimeField(auto_now_add=True, verbose_name='Date Created'),
-        ),
-        migrations.AlterField(
-            model_name='cart',
-            name='updated_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='Last Updated'),
-        ),
-        migrations.AlterField(
-            model_name='cart',
-            name='user',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='cart', to=settings.AUTH_USER_MODEL, verbose_name='User'),
-        ),
-        migrations.AlterField(
-            model_name='cartitem',
-            name='quantity',
-            field=models.PositiveIntegerField(default=1, verbose_name='Quantity'),
-        ),
-        migrations.AlterField(
-            model_name='order',
-            name='created_at',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='Created At'),
-        ),
-        migrations.AlterField(
-            model_name='order',
-            name='status',
-            field=models.CharField(choices=[('new', 'New'), ('confirmed', 'Confirmed'), ('processing', 'Processing'), ('shipped', 'Shipped'), ('delivered', 'Delivered'), ('cancelled', 'Cancelled'), ('returned', 'Returned')], default='new', max_length=20, verbose_name='Status'),
-        ),
-        migrations.AlterField(
-            model_name='order',
-            name='total_amount',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=10, verbose_name='Total Amount'),
-        ),
-        migrations.AlterField(
-            model_name='order',
-            name='updated_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='Updated At'),
-        ),
-        migrations.AlterField(
-            model_name='order',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='orders', to=settings.AUTH_USER_MODEL, verbose_name='User'),
-        ),
-        migrations.AlterField(
-            model_name='orderitem',
-            name='order',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='ordering_app.order', verbose_name='Order'),
-        ),
-        migrations.AlterField(
-            model_name='orderitem',
-            name='price',
-            field=models.DecimalField(decimal_places=2, default=0.0, max_digits=10, verbose_name='Price'),
-        ),
-        migrations.AlterField(
-            model_name='orderitem',
-            name='product',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='order_items', to='ordering_app.product', verbose_name='Product'),
-        ),
-        migrations.AlterField(
-            model_name='orderitem',
-            name='quantity',
-            field=models.PositiveIntegerField(default=1, verbose_name='Quantity'),
-        ),
-        migrations.AlterField(
-            model_name='product',
-            name='sku',
-            field=models.CharField(blank=True, max_length=255, null=True, verbose_name='Артикул (SKU)'),
-        ),
-        migrations.CreateModel(
-            name='Customer',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('phone_number', models.CharField(blank=True, max_length=20, null=True, verbose_name='Phone Number')),
-                ('address', models.TextField(blank=True, null=True, verbose_name='Delivery Address')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='customer', to=settings.AUTH_USER_MODEL, verbose_name='User')),
-            ],
+            name="order",
             options={
-                'verbose_name': 'Customer',
-                'verbose_name_plural': 'Customers',
+                "ordering": ["-created_at"],
+                "verbose_name": "Order",
+                "verbose_name_plural": "Orders",
+            },
+        ),
+        migrations.AlterModelOptions(
+            name="orderitem",
+            options={
+                "verbose_name": "Order Item",
+                "verbose_name_plural": "Order Items",
             },
         ),
         migrations.AddField(
-            model_name='order',
-            name='customer',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='orders', to='ordering_app.customer', verbose_name='Customer'),
+            model_name="order",
+            name="phone_number",
+            field=models.CharField(
+                blank=True, max_length=20, null=True, verbose_name="Phone Number"
+            ),
+        ),
+        migrations.AddField(
+            model_name="order",
+            name="shipping_address",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Shipping Address"
+            ),
+        ),
+        migrations.AddField(
+            model_name="orderitem",
+            name="product_name",
+            field=models.CharField(
+                default="Unknown Product", max_length=255, verbose_name="Product Name"
+            ),
+        ),
+        migrations.AddField(
+            model_name="orderitem",
+            name="supplier_name",
+            field=models.CharField(
+                default="Unknown Supplier", max_length=255, verbose_name="Supplier Name"
+            ),
+        ),
+        migrations.AlterField(
+            model_name="cart",
+            name="created_at",
+            field=models.DateTimeField(auto_now_add=True, verbose_name="Date Created"),
+        ),
+        migrations.AlterField(
+            model_name="cart",
+            name="updated_at",
+            field=models.DateTimeField(auto_now=True, verbose_name="Last Updated"),
+        ),
+        migrations.AlterField(
+            model_name="cart",
+            name="user",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cart",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="cartitem",
+            name="quantity",
+            field=models.PositiveIntegerField(default=1, verbose_name="Quantity"),
+        ),
+        migrations.AlterField(
+            model_name="order",
+            name="created_at",
+            field=models.DateTimeField(
+                default=django.utils.timezone.now, verbose_name="Created At"
+            ),
+        ),
+        migrations.AlterField(
+            model_name="order",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("new", "New"),
+                    ("confirmed", "Confirmed"),
+                    ("processing", "Processing"),
+                    ("shipped", "Shipped"),
+                    ("delivered", "Delivered"),
+                    ("cancelled", "Cancelled"),
+                    ("returned", "Returned"),
+                ],
+                default="new",
+                max_length=20,
+                verbose_name="Status",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="order",
+            name="total_amount",
+            field=models.DecimalField(
+                decimal_places=2,
+                default=0.0,
+                max_digits=10,
+                verbose_name="Total Amount",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="order",
+            name="updated_at",
+            field=models.DateTimeField(auto_now=True, verbose_name="Updated At"),
+        ),
+        migrations.AlterField(
+            model_name="order",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="orders",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="User",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="orderitem",
+            name="order",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="items",
+                to="ordering_app.order",
+                verbose_name="Order",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="orderitem",
+            name="price",
+            field=models.DecimalField(
+                decimal_places=2, default=0.0, max_digits=10, verbose_name="Price"
+            ),
+        ),
+        migrations.AlterField(
+            model_name="orderitem",
+            name="product",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="order_items",
+                to="ordering_app.product",
+                verbose_name="Product",
+            ),
+        ),
+        migrations.AlterField(
+            model_name="orderitem",
+            name="quantity",
+            field=models.PositiveIntegerField(default=1, verbose_name="Quantity"),
+        ),
+        migrations.AlterField(
+            model_name="product",
+            name="sku",
+            field=models.CharField(
+                blank=True, max_length=255, null=True, verbose_name="Артикул (SKU)"
+            ),
+        ),
+        migrations.CreateModel(
+            name="Customer",
+            fields=[
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "phone_number",
+                    models.CharField(
+                        blank=True,
+                        max_length=20,
+                        null=True,
+                        verbose_name="Phone Number",
+                    ),
+                ),
+                (
+                    "address",
+                    models.TextField(
+                        blank=True, null=True, verbose_name="Delivery Address"
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="customer",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="User",
+                    ),
+                ),
+            ],
+            options={
+                "verbose_name": "Customer",
+                "verbose_name_plural": "Customers",
+            },
+        ),
+        migrations.AddField(
+            model_name="order",
+            name="customer",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="orders",
+                to="ordering_app.customer",
+                verbose_name="Customer",
+            ),
         ),
     ]
