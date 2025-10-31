@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8863e7c1-40c6-4287-b403-1d43040e79c4" name="Changes" comment="Добавлена возможность отправки данных для регистрации и получения email с подтверждением регистрации и оформлением заказа">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ordering_app/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ordering_app/management/commands/load_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/ordering_app/management/commands/load_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,6 +98,7 @@
       <workItem from="1761061286900" duration="16000" />
       <workItem from="1761109283967" duration="542000" />
       <workItem from="1761109840788" duration="891000" />
+      <workItem from="1761884731736" duration="3116000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Initial project setup and environment configuration">
       <option name="closed" value="true" />
